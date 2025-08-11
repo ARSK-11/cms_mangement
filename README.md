@@ -1,254 +1,333 @@
 # CMS Management - Node.js Backend Controller
 
-Sistem manajemen CMS berbasis PHP untuk mengontrol backend Node.js dengan interface web yang user-friendly.
+Sistem manajemen CMS berbasis PHP untuk mengontrol multiple backend Node.js dengan interface web yang user-friendly, mirip dengan cPanel.
 
 ## 🚀 Fitur Utama
 
-- **Dashboard Real-time**: Monitor status backend secara real-time
-- **Kontrol Backend**: Start, stop, dan restart backend Node.js
+### 📊 Dashboard
+- **Multiple Backend Support**: Kelola lebih dari satu backend Node.js secara bersamaan
+- **Real-time Monitoring**: Monitor status backend secara real-time dengan auto-refresh
 - **Process Management**: Lihat dan kelola proses backend yang aktif
-- **Log Monitoring**: Monitor log backend dan error logs
-- **System Information**: Informasi sistem dan resource usage
-- **Configuration Management**: Pengaturan konfigurasi backend
-- **Responsive Design**: Interface yang responsif untuk desktop dan mobile
+- **Port Status**: Cek status port untuk setiap backend
+- **Quick Actions**: Akses cepat ke fitur-fitur utama
+
+### 📁 File Upload System
+- **Drag & Drop Upload**: Upload file dengan drag & drop yang mudah
+- **Multiple File Support**: Upload beberapa file sekaligus
+- **Progress Tracking**: Progress bar untuk monitoring upload
+- **File Management**: Lihat, download, dan hapus file yang diupload
+- **Security**: Validasi file type dan ukuran
+- **Supported Formats**: ZIP, TAR, GZ, RAR, JS, JSON, TXT, MD, YML, YAML
+
+### 💻 Terminal Interface
+- **Web-based Terminal**: Terminal command line dalam browser
+- **Command History**: Riwayat command yang dapat dinavigasi
+- **Quick Commands**: Tombol cepat untuk command umum
+- **Working Directory**: Ganti direktori kerja dengan mudah
+- **Real-time Output**: Output command real-time
+- **Export History**: Export riwayat command ke file
+
+### 🔧 Git Operations
+- **Repository Management**: Clone, pull, dan kelola repository Git
+- **Branch Information**: Lihat branch aktif dan status repository
+- **Dependency Installation**: Install dependencies Node.js otomatis
+- **Git Status**: Cek status repository (clean/dirty)
+- **Operation History**: Riwayat operasi Git
+
+### 📋 Log Management
+- **Backend Logs**: Monitor log aplikasi backend
+- **Error Logs**: Monitor error logs
+- **Real-time Updates**: Auto-refresh log secara real-time
+- **Log Filtering**: Filter log berdasarkan jumlah baris
+- **Log Cleanup**: Bersihkan log lama otomatis
+
+### ⚙️ System Information
+- **PHP Environment**: Informasi versi PHP dan ekstensi
+- **Node.js Info**: Versi Node.js dan npm
+- **Git Info**: Versi Git yang terinstall
+- **System Resources**: Memory usage, disk space
+- **Backend Configuration**: Konfigurasi setiap backend
 
 ## 📋 Persyaratan Sistem
 
-- PHP 7.4 atau lebih tinggi
-- Node.js terinstall di sistem
-- Web server (Apache/Nginx) atau PHP built-in server
-- Akses command line untuk eksekusi shell commands
+- **PHP**: 7.4 atau lebih tinggi
+- **Node.js**: Terinstall di sistem
+- **Git**: Terinstall untuk operasi Git
+- **Web Server**: Apache/Nginx atau PHP built-in server
+- **Extensions**: 
+  - `shell_exec` enabled
+  - `fileinfo` untuk validasi file
+  - `curl` untuk request HTTP
+- **Permissions**: Write access untuk direktori uploads dan logs
 
 ## 🛠️ Instalasi
 
-1. **Clone atau download project ini**
-   ```bash
-   git clone <repository-url>
-   cd cms_mangement
-   ```
-
-2. **Konfigurasi awal**
-   - Edit file `includes/config.php`
-   - Sesuaikan path backend Node.js Anda
-   - Set port yang digunakan backend
-
-3. **Jalankan web server**
-   ```bash
-   # Menggunakan PHP built-in server
-   php -S localhost:8080
-   
-   # Atau menggunakan Apache/Nginx
-   # Pastikan folder project ada di web root
-   ```
-
-4. **Akses CMS**
-   - Buka browser dan akses `http://localhost:8080`
-   - CMS siap digunakan
-
-## ⚙️ Konfigurasi
-
-### File Konfigurasi: `includes/config.php`
-
-```php
-// Path ke folder backend Node.js
-define('BACKEND_PATH', 'C:/Users/Aris/Documents/GitHub/backend_user');
-
-// Port yang digunakan backend
-define('BACKEND_PORT', 3000);
-
-// File utama backend
-define('BACKEND_SCRIPT', 'index.js');
+### 1. Clone atau Download
+```bash
+git clone <repository-url>
+cd cms_mangement
 ```
 
-### Pengaturan yang Dapat Dikonfigurasi
+### 2. Konfigurasi Backend
+Edit file `includes/config.php` untuk mengatur backend:
 
-- **BACKEND_PATH**: Path lengkap ke folder backend Node.js
-- **BACKEND_PORT**: Port yang digunakan oleh backend
-- **BACKEND_SCRIPT**: File utama backend (index.js, app.js, dll)
-- **COMMAND_TIMEOUT**: Timeout untuk eksekusi command (detik)
-- **REFRESH_INTERVAL**: Interval auto-refresh dashboard (milidetik)
+```php
+$BACKENDS = [
+    'backend1' => [
+        'name' => 'Backend User Management',
+        'path' => 'C:/Users/Aris/Documents/GitHub/backend_user',
+        'port' => 3000,
+        'script' => 'index.js',
+        'description' => 'Backend untuk manajemen user'
+    ],
+    'backend2' => [
+        'name' => 'Backend API',
+        'path' => 'C:/Users/Aris/Documents/GitHub/backend_api',
+        'port' => 3001,
+        'script' => 'server.js',
+        'description' => 'Backend untuk API utama'
+    ]
+];
+```
+
+### 3. Set Permissions
+```bash
+# Linux/macOS
+chmod +x start.sh
+chmod 755 uploads/
+chmod 755 logs/
+
+# Windows
+# Pastikan folder uploads dan logs dapat ditulis
+```
+
+### 4. Jalankan CMS
+```bash
+# Menggunakan PHP built-in server
+php -S localhost:8080
+
+# Atau gunakan script yang disediakan
+./start.sh          # Linux/macOS
+start.bat           # Windows
+```
+
+### 5. Akses Dashboard
+Buka browser dan kunjungi: `http://localhost:8080`
 
 ## 📖 Cara Penggunaan
 
 ### Dashboard
-- **Status Monitoring**: Lihat status backend (Running/Stopped)
-- **Process List**: Daftar proses backend yang aktif
-- **Port Status**: Status port backend
-- **Quick Actions**: Tombol untuk start, stop, restart backend
+1. **Pilih Backend**: Gunakan dropdown untuk memilih backend yang ingin dikelola
+2. **Monitor Status**: Lihat status real-time backend (Running/Stopped)
+3. **Control Backend**: 
+   - Start: Jalankan backend
+   - Stop: Hentikan backend
+   - Restart: Restart backend
+   - Install Dependencies: Install npm packages
+4. **Process Management**: Lihat dan kill proses yang aktif
+
+### File Upload
+1. **Upload File**: Drag & drop file atau klik untuk memilih
+2. **Monitor Progress**: Lihat progress upload real-time
+3. **Manage Files**: Download atau hapus file yang diupload
+4. **File Types**: Hanya file yang diizinkan yang dapat diupload
+
+### Terminal
+1. **Execute Commands**: Ketik command di terminal
+2. **Quick Commands**: Klik tombol quick command untuk command umum
+3. **Change Directory**: Ganti working directory melalui modal
+4. **Command History**: Gunakan arrow keys untuk navigasi history
+5. **Export History**: Export riwayat command ke file
+
+### Git Operations
+1. **Clone Repository**: Masukkan URL repository dan target path
+2. **Check Status**: Cek status Git repository setiap backend
+3. **Pull Updates**: Pull update terbaru dari remote repository
+4. **Install Dependencies**: Install dependencies setelah pull
+5. **View History**: Lihat riwayat operasi Git
 
 ### Logs
-- **Backend Logs**: Log aplikasi backend
-- **Error Logs**: Log error dan warning
-- **Auto-refresh**: Refresh otomatis log
-- **Log Filtering**: Filter berdasarkan jumlah baris
+1. **View Logs**: Lihat log backend dan error logs
+2. **Auto-refresh**: Log update otomatis setiap beberapa detik
+3. **Filter Logs**: Pilih jumlah baris log yang ditampilkan
+4. **Clear Logs**: Bersihkan log lama
 
-### Settings
-- **Configuration**: Update konfigurasi backend
-- **System Info**: Informasi sistem dan resource
-- **File Permissions**: Cek permission file dan folder
-- **Quick Actions**: Akses cepat ke fungsi utama
+## 🔧 Konfigurasi
 
-## 🔧 API Endpoints
+### Backend Configuration
+File: `includes/config.php`
 
-### Backend Control API: `api/backend-control.php`
+```php
+// Tambah backend baru
+'backend4' => [
+    'name' => 'Backend New',
+    'path' => '/path/to/backend',
+    'port' => 3003,
+    'script' => 'app.js',
+    'description' => 'Backend baru'
+]
+```
 
-#### Actions yang Tersedia:
+### Upload Configuration
+```php
+define('MAX_UPLOAD_SIZE', 50 * 1024 * 1024); // 50MB
+define('ALLOWED_EXTENSIONS', ['zip', 'tar', 'gz', 'rar', 'js', 'json']);
+```
 
-1. **Start Backend**
-   ```
-   POST /api/backend-control.php
-   action=start
-   ```
+### Security Configuration
+File: `.htaccess`
+- Proteksi file sensitif
+- Security headers
+- PHP settings untuk keamanan
 
-2. **Stop Backend**
-   ```
-   POST /api/backend-control.php
-   action=stop
-   ```
+## 🔌 API Endpoints
 
-3. **Restart Backend**
-   ```
-   POST /api/backend-control.php
-   action=restart
-   ```
+### Backend Control
+- `POST /api/backend-control.php`
+- Actions: `start`, `stop`, `restart`, `status`, `kill_process`
 
-4. **Check Status**
-   ```
-   GET /api/backend-control.php?action=status
-   ```
+### File Management
+- `POST /api/backend-control.php`
+- Actions: `upload_file`, `get_uploaded_files`, `delete_file`
 
-5. **Kill Process**
-   ```
-   POST /api/backend-control.php
-   action=kill_process&pid=<process_id>
-   ```
+### Git Operations
+- `POST /api/backend-control.php`
+- Actions: `clone_repository`, `pull_repository`, `install_dependencies`
 
-6. **Get Logs**
-   ```
-   GET /api/backend-control.php?action=logs&lines=100
-   ```
-
-7. **System Info**
-   ```
-   GET /api/backend-control.php?action=system_info
-   ```
-
-8. **Clean Logs**
-   ```
-   POST /api/backend-control.php
-   action=clean_logs&days=7
-   ```
+### System Info
+- `POST /api/backend-control.php`
+- Actions: `system_info`, `clean_logs`, `execute_command`
 
 ## 📁 Struktur File
 
 ```
 cms_mangement/
 ├── index.php                 # Dashboard utama
-├── logs.php                  # Halaman log
-├── settings.php              # Halaman pengaturan
-├── README.md                 # Dokumentasi
+├── upload.php               # File upload page
+├── terminal.php             # Terminal interface
+├── git.php                  # Git operations
+├── logs.php                 # Log management
+├── settings.php             # System settings
+├── test.php                 # System test
+├── start.bat                # Windows start script
+├── start.sh                 # Linux/macOS start script
+├── .htaccess                # Security configuration
+├── README.md                # Documentation
 ├── includes/
-│   ├── config.php           # Konfigurasi sistem
-│   └── functions.php        # Fungsi-fungsi utama
+│   ├── config.php          # Configuration
+│   └── functions.php       # Core functions
 ├── api/
-│   └── backend-control.php  # API endpoint
+│   └── backend-control.php # API endpoints
 ├── assets/
 │   ├── css/
-│   │   └── style.css        # Styling CSS
+│   │   └── style.css       # Styling
 │   └── js/
-│       └── script.js        # JavaScript functions
-└── logs/                    # Direktori log (auto-created)
-    ├── backend.log          # Log backend
-    └── error.log            # Log error
+│       └── script.js       # JavaScript
+├── uploads/                 # Upload directory
+└── logs/                    # Log files
 ```
 
 ## 🔒 Keamanan
 
-### Rekomendasi Keamanan:
+### File Protection
+- `.htaccess` melindungi file sensitif
+- Validasi file upload
+- Sanitasi input
+- Security headers
 
-1. **Restrict Access**: Batasi akses ke CMS hanya dari IP tertentu
-2. **Authentication**: Tambahkan sistem login jika diperlukan
-3. **HTTPS**: Gunakan HTTPS untuk koneksi aman
-4. **File Permissions**: Set permission file yang tepat
-5. **Log Rotation**: Aktifkan rotasi log untuk mencegah file log terlalu besar
+### Access Control
+- Validasi session
+- Input sanitization
+- Command injection protection
+- File permission checks
 
-### Contoh .htaccess untuk Apache:
-```apache
-# Restrict access to specific IPs
-Order Deny,Allow
-Deny from all
-Allow from 127.0.0.1
-Allow from ::1
-Allow from 192.168.1.0/24
-
-# Protect config files
-<Files "config.php">
-    Order Allow,Deny
-    Deny from all
-</Files>
-```
+### Recommendations
+- Gunakan HTTPS di production
+- Batasi akses ke direktori uploads
+- Regular backup logs
+- Monitor file uploads
 
 ## 🐛 Troubleshooting
 
-### Masalah Umum:
+### Common Issues
 
-1. **Backend tidak bisa di-start**
-   - Cek path backend di konfigurasi
-   - Pastikan Node.js terinstall
-   - Cek permission folder backend
+#### Backend tidak start
+1. Cek path backend di `config.php`
+2. Pastikan Node.js terinstall
+3. Cek permission direktori
+4. Lihat error logs
 
-2. **Port sudah digunakan**
-   - Cek apakah ada proses lain yang menggunakan port yang sama
-   - Ganti port di konfigurasi backend
+#### File upload gagal
+1. Cek permission direktori uploads
+2. Cek ukuran file (max 50MB)
+3. Cek ekstensi file
+4. Cek PHP upload settings
 
-3. **Permission denied**
-   - Cek permission file dan folder
-   - Pastikan web server memiliki akses ke command line
+#### Git operations error
+1. Pastikan Git terinstall
+2. Cek network connection
+3. Cek repository URL
+4. Cek permission direktori
 
-4. **Log tidak muncul**
-   - Cek permission direktori logs
-   - Pastikan backend menulis ke file log yang benar
+#### Terminal tidak berfungsi
+1. Cek `shell_exec` enabled
+2. Cek permission untuk execute commands
+3. Cek working directory
+4. Lihat browser console untuk error
 
-### Debug Mode:
-
-Aktifkan error reporting untuk debugging:
-```php
-// Tambahkan di awal file PHP
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-```
+### Debug Mode
+Akses `test.php` untuk menjalankan diagnostic test sistem.
 
 ## 📝 Changelog
 
-### Version 1.0.0
-- Initial release
-- Dashboard dengan monitoring real-time
-- Kontrol backend (start/stop/restart)
-- Log monitoring
-- System information
-- Configuration management
+### v2.0.0 (Current)
+- ✅ Multiple backend support
+- ✅ File upload system dengan drag & drop
+- ✅ Web-based terminal interface
+- ✅ Git operations management
+- ✅ Enhanced UI/UX
+- ✅ Real-time monitoring
+- ✅ Command history
+- ✅ Process management
+- ✅ Log management
 
-## 🤝 Kontribusi
+### v1.0.0
+- ✅ Basic backend control
+- ✅ Single backend support
+- ✅ Process monitoring
+- ✅ Log viewing
+
+## 🤝 Contributing
 
 1. Fork repository
-2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
+2. Buat feature branch
+3. Commit changes
+4. Push ke branch
 5. Buat Pull Request
 
-## 📄 Lisensi
+## 📄 License
 
-Project ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) untuk detail.
+MIT License - lihat file LICENSE untuk detail.
 
-## 📞 Support
+## 🆘 Support
 
-Jika Anda mengalami masalah atau memiliki pertanyaan:
+Jika mengalami masalah:
 
 1. Cek dokumentasi ini
-2. Lihat bagian troubleshooting
-3. Buat issue di repository
-4. Hubungi developer
+2. Jalankan `test.php` untuk diagnostic
+3. Cek error logs di direktori `logs/`
+4. Buat issue di repository
+
+## 🔗 Links
+
+- **Dashboard**: `http://localhost:8080`
+- **File Upload**: `http://localhost:8080/upload.php`
+- **Terminal**: `http://localhost:8080/terminal.php`
+- **Git Operations**: `http://localhost:8080/git.php`
+- **Logs**: `http://localhost:8080/logs.php`
+- **Settings**: `http://localhost:8080/settings.php`
+- **System Test**: `http://localhost:8080/test.php`
 
 ---
 
-**Dibuat dengan ❤️ untuk memudahkan manajemen backend Node.js**
+**CMS Management** - Powerful Node.js Backend Controller dengan interface web yang modern dan user-friendly.
